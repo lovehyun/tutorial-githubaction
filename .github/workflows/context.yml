@@ -17,3 +17,7 @@ jobs:
       env:
         GITHUB_CONTEXT: ${{ toJson(github) }}
       run: echo "$GITHUB_CONTEXT"
+    - name: "settings secret"
+      env:
+        MY_PASSWORD: ${{ secrets.PASSWORD }}
+      run: echo "My password: $MY_PASSWORD"
