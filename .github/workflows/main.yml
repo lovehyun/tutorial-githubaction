@@ -69,4 +69,4 @@ jobs:
         platforms: linux/amd64
         push: true
         tags: ${{ steps.docker_meta.outputs.tags }}
-        labels: ${{ steps.ocker_meta.outpus.labels }}
+        labels: ${{ steps.ocker_meta.outputs.labels }}
