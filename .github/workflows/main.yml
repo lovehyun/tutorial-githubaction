@@ -64,8 +64,8 @@ jobs:
     - name: Build and push
       uses: docker/build-push-action@v2
       with:
-        path: flask/
-        file: ./Dockerfile
+        context: ./flask/
+        file: ./flask/Dockerfile
         platforms: linux/amd64
         push: true
         tags: ${{ steps.docker_meta.outputs.tags }}
