@@ -12,9 +12,8 @@ jobs:
       env:
         # https://docs.github.com/en/actions/learn-github-actions/contexts
         COMMIT_ID: ${{ github.sha }}
-      run: echo "Commit_ID: $COMMIT_ID"
+      run: echo "CommitID: $COMMIT_ID"
     - name: "github context"
       env:
         GITHUB_CONTEXT: ${{ toJson(github) }}
-      run: echo "$GITUB_CONTEXT"
-
+      run: echo "$GITHUB_CONTEXT"
