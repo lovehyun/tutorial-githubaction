@@ -47,7 +47,7 @@ jobs:
       uses: actions/checkout@v2
     - name: Docker meta
       id: docker_meta
-      uses: crazy-max/ghactino-docker-meta@v1
+      uses: crazy-max/ghaction-docker-meta@v1
       with:
         images: lovehyun/flask-app-auto
         tag-semver: |
