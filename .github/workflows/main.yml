@@ -119,7 +119,7 @@ jobs:
         instance-ids: ${{ secrets.INSTANCE_ID }}
 
         comment: Start deploy the docker
-        command: docker rm -f my-flask-app || true && docker run --rm -d --name my-flask-app -p 5000:5000 lovehyun/flask-app-auto:11.flaskappdeploy
+        command: docker rm -f my-flask-app || true && docker run --rm -d --name my-flask-app -p 8000:5000 lovehyun/flask-app-auto:11.flaskappdeploy
 
     # Catch SSM outputs
     - name: Get the outputs2
