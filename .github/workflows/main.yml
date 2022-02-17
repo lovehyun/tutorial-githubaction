@@ -82,7 +82,7 @@ jobs:
 
     - name: Test image
       run: |
-        docker run --rm -d --name my-flask-app-test -p 5000:5000 lovehyun/flask-app-auto:11.flaskappdeploy
+        docker run --rm -d --name test_container -p 5000:5000 lovehyun/flask-app-auto:11.flaskappdeploy
         docker run --link test_container:test_container waisbrot/wait
         curl --fail http://localhost:5000
 
