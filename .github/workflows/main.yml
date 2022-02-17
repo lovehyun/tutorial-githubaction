@@ -110,7 +110,7 @@ jobs:
       run: echo "The Command id is ${{ steps.ssm.outputs.command-id }}"
 
     # Really deploy
-    - name: AWS SSM Send-Command
+    - name: AWS SSM Send-Command2
       uses: peterkimzz/aws-ssm-send-command@master
       id: ssm
       with:
