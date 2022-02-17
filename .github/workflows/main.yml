@@ -113,6 +113,11 @@ jobs:
     - name: AWS SSM Send-Command2
       uses: peterkimzz/aws-ssm-send-command@master
       with:
+        aws-region: ${{ secrets.AWS_REGION }}
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        instance-ids: ${{ secrets.INSTANCE_ID }}
+
         comment: Start deploy the docker
         command: docker rm -f my-flask-app || true && docker run --rm -d --name my-flask-app -p 5000:5000 lovehyun/flask-app-auto:11.flaskappdeploy
 
