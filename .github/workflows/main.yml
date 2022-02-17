@@ -120,8 +120,8 @@ jobs:
         instance-ids: ${{ secrets.INSTANCE_ID }}
 
         working-directory: /home/ubuntu/
-        command: docker rm -f my-flask-app || true
-        command: docker run --rm -d --name my-flask-app -p 5000:5000 lovehyun/flask-app-auto:11.flaskappdeploy
+        comment: Start deploy the docker
+        command: docker rm -f my-flask-app || true && docker run --rm -d --name my-flask-app -p 5000:5000 lovehyun/flask-app-auto:11.flaskappdeploy
 
     # Catch SSM outputs
     - name: Get the outputs
