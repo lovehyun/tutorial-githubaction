@@ -115,26 +115,27 @@ jobs:
     needs: docker
 
     steps:
-    - name: AWS SSM Send-Command
-      uses: peterkimzz/aws-ssm-send-command@master
-      id: ssm
-      with:
-        aws-region: ${{ secrets.AWS_REGION }}
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        instance-ids: ${{ secrets.INSTANCE_ID }}
+    # - name: AWS SSM Send-Command
+    #   uses: peterkimzz/aws-ssm-send-command@master
+    #   id: ssm
+    #   with:
+    #     aws-region: ${{ secrets.AWS_REGION }}
+    #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    #     instance-ids: ${{ secrets.INSTANCE_ID }}
 
-        working-directory: /home/ubuntu/
-        command: ls -al
-        comment: Hello world!
+    #     working-directory: /home/ubuntu/
+    #     command: ls -al
+    #     comment: Hello world!
 
     # Catch SSM outputs
-    - name: Get the outputs
-      run: echo "The Command id is ${{ steps.ssm.outputs.command-id }}"
+    # - name: Get the outputs
+    #   run: echo "The Command id is ${{ steps.ssm.outputs.command-id }}"
 
     # Really deploy
     - name: AWS SSM Send-Command2
       uses: peterkimzz/aws-ssm-send-command@master
+      id: ssm2
       with:
         aws-region: ${{ secrets.AWS_REGION }}
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -142,7 +143,7 @@ jobs:
         instance-ids: ${{ secrets.INSTANCE_ID }}
 
         comment: Start deploy the docker
-        command: docker rm -f my-flask-app || true && docker pull lovehyun/flask-app-auto:11.flaskappdeploy && docker run --rm -d --name my-flask-app -p 8000:5000 lovehyun/flask-app-auto:11.flaskappdeploy
+        command: docker rm -f my-flask-app || true && docker pull lovehyun/flask-app-auto:latest && docker run --rm -d --name my-flask-app -p 8000:5000 lovehyun/flask-app-auto:latest
 
     # Catch SSM outputs
     - name: Get the outputs2
