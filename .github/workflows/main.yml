@@ -13,6 +13,11 @@ jobs:
       matrix:
         python-version: [3.5, 3.6, 3.7, 3.8]
 
+    # runs-on: ${{ matrix.os }}
+    # strategy:
+    #   matrix:
+    #     os: [ubuntu-laltest, windows-latest, macOS-latest]
+
     steps:
       - uses: actions/checkout@v2
       - name: Run pwd
@@ -50,39 +55,55 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - name: Docker meta
-      id: docker_meta
-      uses: crazy-max/ghaction-docker-meta@v1
-      with:
-        images: lovehyun/flask-app-auto
-        # https://semver.org/
-        tag-semver: |
-          {{version}}
-          {{major}}.{{minor}}
+    # - name: Docker build and push
+    #   run: |
+    #     docker build .
+    #     docker login
+    #     docker push xxxxx
 
-    - name: Set up docker buildx
-      uses: docker/setup-buildx-action@v1
+  - name: Build & push Docker image
+    uses: mr-smithers-excellent/docker-build-push@v5
+    with:
+      image: lovehyun/flask-app-auto
+      tags: v1, latest
+      registry: docker.io
+      dockerfile: ./flask/Dockerfile
+      username: ${{ secrets.DOCKERHUB_USERNAME }}
+      password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    - name: Login to Dockerhub
-      uses: docker/login-action@v1
-      with:
-        # https://docs.docker.com/ci-cd/github-actions/
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    # - name: Docker meta
+    #   id: docker_meta
+    #   uses: crazy-max/ghaction-docker-meta@v1
+    #   with:
+    #     images: lovehyun/flask-app-auto
+    #     # https://semver.org/
+    #     tag-semver: |
+    #       {{version}}
+    #       {{major}}.{{minor}}
 
-    - name: Build and push
-      uses: docker/build-push-action@v2
-      with:
-        context: ./flask/
-        file: ./flask/Dockerfile
-        platforms: linux/amd64
-        push: true
-        tags: ${{ steps.docker_meta.outputs.tags }}
-        labels: ${{ steps.ocker_meta.outputs.labels }}
+    # - name: Set up docker buildx
+    #   uses: docker/setup-buildx-action@v1
+
+    # - name: Login to Dockerhub
+    #   uses: docker/login-action@v1
+    #   with:
+    #     # https://docs.docker.com/ci-cd/github-actions/
+    #     username: ${{ secrets.DOCKERHUB_USERNAME }}
+    #     password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    # - name: Build and push
+    #   uses: docker/build-push-action@v2
+    #   with:
+    #     context: ./flask/
+    #     file: ./flask/Dockerfile
+    #     platforms: linux/amd64
+    #     push: true
+    #     tags: ${{ steps.docker_meta.outputs.tags }}
+    #     labels: ${{ steps.ocker_meta.outputs.labels }}
 
     - name: Test image
       run: |
-        docker run --rm -d --name test_container -p 5000:5000 lovehyun/flask-app-auto:11.flaskappdeploy
+        docker run --rm -d --name test_container -p 5000:5000 lovehyun/flask-app-auto:latest
         docker run --link test_container:test_container waisbrot/wait
         curl --fail http://localhost:5000
 
@@ -119,7 +140,7 @@ jobs:
         instance-ids: ${{ secrets.INSTANCE_ID }}
 
         comment: Start deploy the docker
-        command: docker rm -f my-flask-app || true && docker run --rm -d --name my-flask-app -p 8000:5000 lovehyun/flask-app-auto:11.flaskappdeploy
+        command: docker rm -f my-flask-app || true && docker pull lovehyun/flask-app-auto:11.flaskappdeploy && docker run --rm -d --name my-flask-app -p 8000:5000 lovehyun/flask-app-auto:11.flaskappdeploy
 
     # Catch SSM outputs
     - name: Get the outputs2
