@@ -68,7 +68,8 @@ jobs:
         image: lovehyun/flask-app-auto
         tags: v1, latest
         registry: docker.io
-        dockerfile: ./flask/Dockerfile
+        directory: flask
+        dockerfile: Dockerfile
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
